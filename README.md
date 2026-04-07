@@ -1,6 +1,3 @@
-Dự án Rắn Săn Mồi (Snake Game) của bạn thực sự rất ấn tượng! Việc kết hợp giao diện quản lý người dùng bằng PyQt6 với engine xử lý game bằng Pygame, cộng thêm thuật toán AI (BFS) và thiết kế màn chơi đa dạng cho thấy sự đầu tư rất tỉ mỉ. 
-
-Dưới đây là bản mô tả chi tiết (file `README.md`) được thiết kế chuẩn mực, rõ ràng và đầy đủ thông tin để bạn đưa lên GitHub hoặc lưu trữ cho dự án.
 
 ***
 
