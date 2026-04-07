@@ -1,5 +1,5 @@
 
-***
+
 
 # 🐍 Trò Chơi Rắn Săn Mồi Đa Chế Độ (Multi-mode Snake Game & AI)
 
