@@ -47,6 +47,8 @@ pip install pygame PyQt6
 Chạy file giao diện chính để bắt đầu trò chơi:
 ```bash
 python main.py
+or
+py main.py
 ```
 
 ---
