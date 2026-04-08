@@ -108,8 +108,8 @@ class SnakeGame:
         self.snake = [(COLS // 2, ROWS // 2), (COLS // 2 - 1, ROWS // 2)]
         self.food = self.spawn_food()
         self.score = 0
-        self.direction = "right"
-        self.last_direction = "right"
+        self.direction = ""
+        self.last_direction = ""
         self.game_over = False
         self.frame_count = 0
 
@@ -231,7 +231,7 @@ class SnakeGame:
                         if event.key == pygame.K_SPACE and self.game_over: self.reset()
                         if event.key == pygame.K_TAB: self.state = "MENU"
 
-                self.play_step()
+                if self.direction: self.play_step()
                 self.draw_game()
                 self.clock.tick(FPS)
 
