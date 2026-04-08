@@ -171,6 +171,11 @@ class SnakeGame:
 
     def draw_game(self):
         self.screen.fill(BLACK)
+        # # Vẽ lưới
+        # for x in range(0, WIDTH, CELL_SIZE):
+        #     pygame.draw.line(self.screen, (30, 30, 30), (x, 0), (x, HEIGHT))
+        # for y in range(0, HEIGHT, CELL_SIZE):
+        #     pygame.draw.line(self.screen, (30, 30, 30), (0, y), (WIDTH, y))
         # Vẽ vật cản
         for x, y in self.obstacles:
             pygame.draw.rect(self.screen, (130, 130, 130), (x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE-1, CELL_SIZE-1))
