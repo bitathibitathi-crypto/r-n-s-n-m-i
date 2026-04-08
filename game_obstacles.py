@@ -108,10 +108,11 @@ class SnakeGame:
         self.snake = [(COLS // 2, ROWS // 2), (COLS // 2 - 1, ROWS // 2)]
         self.food = self.spawn_food()
         self.score = 0
-        self.direction = ""
-        self.last_direction = ""
+        self.direction = "right"
+        self.last_direction = "right"
         self.game_over = False
         self.frame_count = 0
+        self.started = False
 
     def spawn_food(self):
         while True:
@@ -223,15 +224,15 @@ class SnakeGame:
                     if event.type == pygame.QUIT:
                         running = False
                     if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_UP and self.last_direction != "down": self.direction = "up"
-                        if event.key == pygame.K_DOWN and self.last_direction != "up": self.direction = "down"
-                        if event.key == pygame.K_LEFT and self.last_direction != "right": self.direction = "left"
-                        if event.key == pygame.K_RIGHT and self.last_direction != "left": self.direction = "right"
+                        if event.key == pygame.K_UP and self.last_direction != "down": self.direction = "up"; self.started = True
+                        if event.key == pygame.K_DOWN and self.last_direction != "up": self.direction = "down"; self.started = True
+                        if event.key == pygame.K_LEFT and self.last_direction != "right": self.direction = "left"; self.started = True
+                        if event.key == pygame.K_RIGHT and self.last_direction != "left": self.direction = "right"; self.started = True
                         if event.key == pygame.K_ESCAPE and self.game_over: running = False
                         if event.key == pygame.K_SPACE and self.game_over: self.reset()
                         if event.key == pygame.K_TAB: self.state = "MENU"
 
-                if self.direction: self.play_step()
+                if self.started : self.play_step()
                 self.draw_game()
                 self.clock.tick(FPS)
 
