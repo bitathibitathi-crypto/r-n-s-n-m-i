@@ -189,7 +189,7 @@ class ModeSelectionDialog(QDialog):
         self.username=username
         self.selected_mode = None
         self.setWindowTitle("Chọn chế độ")
-        self.setFixedSize(350, 380)
+        self.setFixedSize(350, 430)
         self.setStyleSheet(STYLESHEET)
         
         layout = QVBoxLayout()
@@ -223,6 +223,11 @@ class ModeSelectionDialog(QDialog):
         btn_score.setStyleSheet("background-color: #FBC02D; color: #1B5E20;")
         btn_score.clicked.connect(self.open_scores)
         layout.addWidget(btn_score)
+
+        btn_logout = QPushButton("🚪 Đăng xuất")
+        btn_logout.setStyleSheet("background-color: #D32F2F; color: white;")
+        btn_logout.clicked.connect(self.reject)
+        layout.addWidget(btn_logout)
 
         self.setLayout(layout)
 
@@ -307,7 +312,9 @@ class LoginWindow(QWidget):
                     if new_best is not None and new_best > current_best:
                         save_score(u, chosen_mode, new_best)
                 else:
-                    # Nếu nhấn X ở bảng chọn chế độ thì mới quay lại màn hình Login
+                    # Nếu nhấn Đăng xuất hoặc X thì quay lại màn hình Login
+                    self.username.clear()
+                    self.password.clear()
                     self.show()
                     break
         else:
