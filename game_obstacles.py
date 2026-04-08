@@ -41,43 +41,76 @@ class SnakeGame:
             print("Cảnh báo: Không tìm thấy file ảnh!")
         
     def load_level(self, level):
+        """Định nghĩa vật cản cho 5 màn chơi khó"""
+        # Sử dụng set() thay vì [] để tối ưu tốc độ tra cứu và xóa
         self.obstacles = set()
+        
         if level == 1:
-            for x in range(10, COLS - 10): self.obstacles.update([(x, 8), (x, ROWS - 9)])
-            for y in range(8, ROWS - 8): self.obstacles.update([(10, y), (COLS - 11, y)])
+            # Màn 1: Khung giam (The Ring) - Một vòng tường lớn bao quanh với 4 cửa ra
+            for x in range(10, COLS - 10):
+                self.obstacles.update([(x, 8), (x, ROWS - 9)])
+            for y in range(8, ROWS - 8):
+                self.obstacles.update([(10, y), (COLS - 11, y)])
+                
+            # Đục lỗ (tạo cửa) - Dùng discard() nhanh và an toàn hơn remove()
             for x in range(COLS//2 - 2, COLS//2 + 3):
-                self.obstacles.discard((x, 8)); self.obstacles.discard((x, ROWS - 9))
+                self.obstacles.discard((x, 8))
+                self.obstacles.discard((x, ROWS - 9))
             for y in range(ROWS//2 - 2, ROWS//2 + 3):
-                self.obstacles.discard((10, y)); self.obstacles.discard((COLS - 11, y))
+                self.obstacles.discard((10, y))
+                self.obstacles.discard((COLS - 11, y))
+
         elif level == 2:
+            # Màn 2: 9 Căn phòng (Tic-Tac-Toe) - Chia lưới thành 9 ô, chỉ có kẽ hở nhỏ
             for x in [COLS//3, 2*COLS//3]:
                 for y in range(ROWS):
-                    if y not in range(ROWS//2 - 3, ROWS//2 + 4) and y not in [3, ROWS-4]: self.obstacles.add((x, y))
+                    if y not in range(ROWS//2 - 3, ROWS//2 + 4) and y not in [3, ROWS-4]:
+                        self.obstacles.add((x, y))
             for y in [ROWS//3, 2*ROWS//3]:
                 for x in range(COLS):
-                    if x not in range(COLS//2 - 3, COLS//2 + 4) and x not in [4, COLS-5]: self.obstacles.add((x, y))
+                    if x not in range(COLS//2 - 3, COLS//2 + 4) and x not in [4, COLS-5]:
+                        self.obstacles.add((x, y))
+
         elif level == 3:
+            # Màn 3: Răng cưa (Zig-Zag Teeth) - Buộc phải lạng lách liên tục
             for i in range(1, 5):
                 x = i * (COLS // 5)
                 if i % 2 == 1:
-                    for y in range(0, ROWS - 8): self.obstacles.add((x, y))
+                    # Tường cắm từ trên xuống
+                    for y in range(0, ROWS - 8):
+                        self.obstacles.add((x, y))
                 else:
-                    for y in range(8, ROWS): self.obstacles.add((x, y))
+                    # Tường cắm từ dưới lên
+                    for y in range(8, ROWS):
+                        self.obstacles.add((x, y))
+
         elif level == 4:
+            # Màn 4: Pháo đài kép (The Fortress) - 2 lớp hình vuông đồng tâm
+            # Lớp ngoài
             for x in range(4, COLS - 4): self.obstacles.update([(x, 4), (x, ROWS - 5)])
             for y in range(4, ROWS - 4): self.obstacles.update([(4, y), (COLS - 5, y)])
+            # Lớp trong
             for x in range(14, COLS - 14): self.obstacles.update([(x, 10), (x, ROWS - 11)])
             for y in range(10, ROWS - 10): self.obstacles.update([(14, y), (COLS - 15, y)])
+            
+            # Đục lỗ (Cửa ra vào chéo nhau)
             for y in range(ROWS//2 - 2, ROWS//2 + 2):
-                 self.obstacles.discard((4, y)); self.obstacles.discard((COLS-5, y))
+                 self.obstacles.discard((4, y))
+                 self.obstacles.discard((COLS-5, y))
             for x in range(COLS//2 - 2, COLS//2 + 2):
-                 self.obstacles.discard((x, 10)); self.obstacles.discard((x, ROWS-11))
+                 self.obstacles.discard((x, 10))
+                 self.obstacles.discard((x, ROWS-11))
+
         elif level == 5:
+            # Màn 5: Bãi mìn (Minefield) - Vô số khối vuông rải rác khắp bản đồ
             for x in range(2, COLS - 2, 4):
                 for y in range(2, ROWS - 2, 4):
                     self.obstacles.update([(x, y), (x+1, y), (x, y+1), (x+1, y+1)])
+            
+            # Xóa các chướng ngại vật ở giữa để rắn có chỗ sinh ra an toàn
             for cx in range(COLS//2 - 4, COLS//2 + 4):
-                for cy in range(ROWS//2 - 4, ROWS//2 + 4): self.obstacles.discard((cx, cy))
+                for cy in range(ROWS//2 - 4, ROWS//2 + 4):
+                    self.obstacles.discard((cx, cy))
 
     def reset(self):
         self.load_level(self.current_level)
