@@ -1,0 +1,3 @@
+basic|0
+obstacles|0
+ai|0
