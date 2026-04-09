@@ -32,7 +32,7 @@ if not os.path.exists(SCORE_FILE):
 def load_users():
     users = {}
     if os.path.exists(FILE_NAME):
-        with open(FILE_NAME, "r") as f:
+        with open(FILE_NAME, "r",encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if "|" in line:
@@ -41,7 +41,7 @@ def load_users():
     return users
 
 def save_user(u, p):
-    with open(FILE_NAME, "a") as f:
+    with open(FILE_NAME, "a",encoding="utf-8") as f:
         f.write(f"{u}|{p}\n")
 
 # Sửa lại hàm lấy điểm để nhận vào tên người dùng
