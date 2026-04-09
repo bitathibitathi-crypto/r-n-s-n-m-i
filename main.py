@@ -44,7 +44,7 @@ def save_user(u, p):
     with open(FILE_NAME, "a",encoding="utf-8") as f:
         f.write(f"{u}|{p}\n")
 
-# Sửa lại hàm lấy điểm để nhận vào tên người dùng
+# hàm lấy điểm để nhận vào tên người dùng
 def get_scores(username):
     # Tạo tên file riêng cho từng user
     user_score_file = os.path.join(BASE_DIR, f"{username}_scores.txt")
@@ -62,7 +62,7 @@ def get_scores(username):
             pass
     return scores
 
-# Bạn cũng nên có hàm để lưu điểm riêng cho từng user sau này
+# hàm để lưu điểm riêng cho từng user sau này
 def save_score(username, mode, score):
     user_score_file = os.path.join(BASE_DIR, f"{username}_scores.txt")
     scores = get_scores(username)
@@ -102,7 +102,7 @@ STYLESHEET = """
     QPushButton:hover { background-color: #66BB6A; }
 """
 
-# --- Các Lớp Giao Diện ---
+#  Các Lớp Giao Diện 
 
 class HighScoreDialog(QDialog):
     def __init__(self, username): # Nhận thêm username
@@ -134,6 +134,11 @@ class HighScoreDialog(QDialog):
         self.setLayout(layout)
 
 class RegisterWindow(QWidget):
+    def has_vietnamese(text):
+        for char in text:
+            if ord(char) > 127:
+                return True
+            return Falsed
     def __init__(self, login_window):
         super().__init__()
         self.login_window = login_window
@@ -164,13 +169,15 @@ class RegisterWindow(QWidget):
 
         btn_submit.clicked.connect(self.process_registration)
         btn_back.clicked.connect(self.close)
-
     def process_registration(self):
-        u, p = self.u_reg.text(), self.p_reg.text()
+        u = self.u_reg.text().strip()
+        p = self.p_reg.text().strip()
         if not u or not p:
             QMessageBox.warning(self, "Lỗi", "Không được để trống!")
             return
-        
+        if has_vietnamese(u) or has_vietnamese(p):
+            QMessageBox.warning(self, "Lỗi", "Không được nhập ký tự có dấu!")
+            return
         users = load_users()
         if u in users:
             QMessageBox.warning(self, "Lỗi", "Tài khoản đã tồn tại!")
