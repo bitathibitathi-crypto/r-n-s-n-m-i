@@ -1,6 +1,10 @@
 import pygame
 import random
+import os
 from collections import deque
+
+# --- TỰ ĐỘNG XÁC ĐỊNH ĐƯỜNG DẪN ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # --- CẤU HÌNH ---
 WIDTH, HEIGHT = 1590, 900
@@ -26,15 +30,30 @@ class SnakeGameAI:
         self.font_sub = pygame.font.SysFont('Arial', 50) 
         self.best_score = best_score
         
+        # --- ÂM THANH ---
+        try:
+            pygame.mixer.init()
+            # Sử dụng đường dẫn tuyệt đối cho file nhạc
+            music_path = os.path.join(BASE_DIR, 'bg.mp3')
+            pygame.mixer.music.load(music_path) 
+            pygame.mixer.music.set_volume(5)
+            pygame.mixer.music.play(-1) 
+        except Exception as e:
+            print(f"Cảnh báo: Không thể tải nhạc nền ({e})")
+
         # --- LOAD ẢNH ---
         try:
-            self.head_img = pygame.image.load('snake_head.png').convert_alpha()
-            self.body_img = pygame.image.load('snake_body.png').convert_alpha()
+            # Sử dụng đường dẫn tuyệt đối cho file ảnh
+            head_path = os.path.join(BASE_DIR, 'snake_head.png')
+            body_path = os.path.join(BASE_DIR, 'snake_body.png')
+            
+            self.head_img = pygame.image.load(head_path).convert_alpha()
+            self.body_img = pygame.image.load(body_path).convert_alpha()
             self.head_img = pygame.transform.scale(self.head_img, (CELL_SIZE-2, CELL_SIZE-2))
             self.body_img = pygame.transform.scale(self.body_img, (CELL_SIZE-2, CELL_SIZE-2))
-        except:
+        except Exception as e:
             self.head_img = None 
-            print("Cảnh báo: Không tìm thấy file ảnh!")
+            print(f"Cảnh báo: Không tìm thấy file ảnh! ({e})")
 
         self.reset()
 
@@ -87,8 +106,7 @@ class SnakeGameAI:
         for i, (x, y) in enumerate(self.snake):
             pos = (x * CELL_SIZE + 2, y * CELL_SIZE + 2)
             if self.head_img:
-                if i == 0: # Nếu là đầu thì xoay ảnh
-                    # Pygame xoay ngược chiều kim đồng hồ, nên Up=90, Left=180, Down=270, Right=0
+                if i == 0: 
                     angles = {"up": 90, "down": 270, "left": 180, "right": 0}
                     rotated_head = pygame.transform.rotate(self.head_img, angles[self.direction])
                     self.screen.blit(rotated_head, pos)
