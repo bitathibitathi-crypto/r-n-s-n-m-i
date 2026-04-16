@@ -133,12 +133,13 @@ class HighScoreDialog(QDialog):
         layout.addWidget(btn_close)
         self.setLayout(layout)
 
+def has_vietnamese(text):
+    for char in text:
+        if ord(char) > 127:
+            return True
+    return False
+
 class RegisterWindow(QWidget):
-    def has_vietnamese(text):
-        for char in text:
-            if ord(char) > 127:
-                return True
-            return False
     def __init__(self, login_window):
         super().__init__()
         self.login_window = login_window
@@ -162,7 +163,7 @@ class RegisterWindow(QWidget):
 
         layout.addWidget(title)
         layout.addWidget(self.u_reg)
-        layout.addWidget(self.p_reg)  
+        layout.addWidget(self.p_reg)
         layout.addWidget(btn_submit)
         layout.addWidget(btn_back)
         self.setLayout(layout)
