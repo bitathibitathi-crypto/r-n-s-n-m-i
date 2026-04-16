@@ -1,12 +1,14 @@
 import pygame
 import random
 from collections import deque
+import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # --- CẤU HÌNH ---
 WIDTH, HEIGHT = 1600, 900
 CELL_SIZE = 30
 COLS, ROWS = WIDTH // CELL_SIZE, HEIGHT // CELL_SIZE
-FPS = 1000 # Để tốc độ vừa phải để quan sát AI, hoặc 1000 nếu muốn chạy cực nhanh
+FPS = 200 # Để tốc độ vừa phải để quan sát AI, hoặc 1000 nếu muốn chạy cực nhanh
 
 # Màu sắc
 WHITE = (220, 220, 220)
@@ -26,15 +28,30 @@ class SnakeGameAI:
         self.font_sub = pygame.font.SysFont('Arial', 50)
         self.best_score = best_score
         
-        # --- LOAD ẢNH (Giống game_basic) ---
+        # --- ÂM THANH ---
         try:
-            self.head_img = pygame.image.load('snake_head.png').convert_alpha()
-            self.body_img = pygame.image.load('snake_body.png').convert_alpha()
+            pygame.mixer.init()
+            # Sử dụng đường dẫn tuyệt đối cho file nhạc
+            music_path = os.path.join(BASE_DIR, 'bg.mp3')
+            pygame.mixer.music.load(music_path) 
+            pygame.mixer.music.set_volume(1)
+            pygame.mixer.music.play(-1) 
+        except Exception as e:
+            print(f"Cảnh báo: Không thể tải nhạc nền ({e})")
+
+        # --- LOAD ẢNH ---
+        try:
+            # Sử dụng đường dẫn tuyệt đối cho file ảnh
+            head_path = os.path.join(BASE_DIR, 'snake_head.png')
+            body_path = os.path.join(BASE_DIR, 'snake_body.png')
+            
+            self.head_img = pygame.image.load(head_path).convert_alpha()
+            self.body_img = pygame.image.load(body_path).convert_alpha()
             self.head_img = pygame.transform.scale(self.head_img, (CELL_SIZE-2, CELL_SIZE-2))
             self.body_img = pygame.transform.scale(self.body_img, (CELL_SIZE-2, CELL_SIZE-2))
-        except:
-            self.head_img = None
-            print("Cảnh báo: Không tìm thấy file ảnh!")
+        except Exception as e:
+            self.head_img = None 
+            print(f"Cảnh báo: Không tìm thấy file ảnh! ({e})")
 
         self.reset()
 
