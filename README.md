@@ -83,4 +83,5 @@ Chế độ rảnh tay. AI sẽ tự động phân tích bản đồ và tìm đ
 
 ---
 > **Lưu ý:** Các file dữ liệu người dùng (`users.txt` và file điểm cao) lưu mật khẩu ở dạng văn bản thuần túy (plain text) để dễ dàng kiểm tra phục vụ mục đích học tập.
+---
 > **SLIDE giới thiệu: [https://www.canva.com/design/DAHGQcJdVB8/Wr7lmihxyUF6yEvkszurjw/edit](https://canva.link/hr3iud14ek4l89f)
